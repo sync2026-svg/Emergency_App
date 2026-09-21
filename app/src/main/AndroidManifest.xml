@@ -1,0 +1,31 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--  Needed only if you wire up real GPS-based location sharing later.
+             Not required for the current frontend-only screens, but harmless to declare.  -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <application android:allowBackup="true" android:dataExtractionRules="@xml/data_extraction_rules" android:fullBackupContent="@xml/backup_rules" android:icon="@drawable/dr__hari_singh_gour_university_logo" android:label="@string/app_name" android:roundIcon="@drawable/bg_button_outline" android:supportsRtl="true" android:theme="@style/Theme.UniversityEmergencyApp">
+        <!--  TODO: replace with your own Google Maps API key to render the campus map  -->
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="YOUR_GOOGLE_MAPS_API_KEY_HERE"/>
+        <activity android:name=".MainActivity" android:exported="true" android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".Login" android:exported="false" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".Register" android:exported="false" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".Home" android:exported="false" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".AlertsActivity" android:exported="false"/>
+        <activity android:name=".AlertDetailActivity" android:exported="false"/>
+        <activity android:name=".ProfileActivity" android:exported="false"/>
+        <activity android:name=".ReportIncidentActivity" android:exported="false" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".SosConfirmActivity" android:exported="false"/>
+        <activity android:name=".SosActiveActivity" android:exported="false"/>
+        <activity android:name=".CampusMapActivity" android:exported="false"/>
+    </application>
+</manifest>

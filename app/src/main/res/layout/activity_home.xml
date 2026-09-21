@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    tools:context=".Home">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollContent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- ===== Banner ===== -->
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="0dp"
+                android:layout_height="169dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Campus emergency banner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/img2" />
+
+            <!-- Dark scrim so text/logo stay readable over the banner photo -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/banner_scrim"
+                app:layout_constraintTop_toTopOf="@id/imageView"
+                app:layout_constraintBottom_toBottomOf="@id/imageView"
+                app:layout_constraintStart_toStartOf="@id/imageView"
+                app:layout_constraintEnd_toEndOf="@id/imageView" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="36dp"
+                android:contentDescription="University logo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/dr__hari_singh_gour_university_logo" />
+
+            <TextView
+                android:id="@+id/tvUniversityName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="42dp"
+                android:layout_marginEnd="16dp"
+                android:text="Dr. Harisingh Gour Vishwavidyalaya"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintStart_toEndOf="@id/imageView3"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvHeadline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Campus Emergency Response"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/imageView" />
+
+            <!-- ===== Big SOS button ===== -->
+            <TextView
+                android:id="@+id/btnSOS"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_sos_circle"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:text="SOS"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintTop_toBottomOf="@id/imageView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSosHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Tap and hold in an emergency to alert Campus Security"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@id/btnSOS"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- ===== Quick access section label ===== -->
+            <TextView
+                android:id="@+id/tvQuickAccess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="Quick Access"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvSosHint" />
+
+            <!-- ===== Quick access grid: row 1 ===== -->
+            <ImageButton
+                android:id="@+id/btn3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="53dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_action_circle"
+                android:contentDescription="Call Police"
+                app:layout_constraintEnd_toStartOf="@+id/btn4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvQuickAccess"
+                app:srcCompat="@drawable/ic_police" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Police"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintStart_toStartOf="@id/btn3"
+                app:layout_constraintEnd_toEndOf="@id/btn3"
+                app:layout_constraintTop_toBottomOf="@id/btn3" />
+
+            <ImageButton
+                android:id="@+id/btn4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="53dp"
+                android:layout_marginEnd="53dp"
+                android:background="@drawable/bg_action_circle"
+                android:contentDescription="Call Ambulance"
+                app:layout_constraintEnd_toStartOf="@+id/btn5"
+                app:layout_constraintStart_toEndOf="@+id/btn3"
+                app:layout_constraintTop_toTopOf="@id/btn3"
+                app:srcCompat="@drawable/ic_ambulance" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Ambulance"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="@id/btn4"
+                app:layout_constraintStart_toStartOf="@id/btn4"
+                app:layout_constraintTop_toBottomOf="@id/btn4" />
+
+            <ImageButton
+                android:id="@+id/btn5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="53dp"
+                android:background="@drawable/bg_action_circle"
+                android:contentDescription="Report Fire"
+                app:layout_constraintEnd_toStartOf="@+id/btn6"
+                app:layout_constraintStart_toEndOf="@+id/btn4"
+                app:layout_constraintTop_toTopOf="@id/btn3"
+                app:srcCompat="@drawable/ic_fire" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Fire"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintStart_toStartOf="@id/btn5"
+                app:layout_constraintEnd_toEndOf="@id/btn5"
+                app:layout_constraintTop_toBottomOf="@id/btn5" />
+
+            <ImageButton
+                android:id="@+id/btn6"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="53dp"
+                android:background="@drawable/bg_action_circle"
+                android:contentDescription="Campus Security"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btn5"
+                app:layout_constraintTop_toTopOf="@id/btn3"
+                app:srcCompat="@drawable/ic_security" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Security"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintStart_toStartOf="@id/btn6"
+                app:layout_constraintEnd_toEndOf="@id/btn6"
+                app:layout_constraintTop_toBottomOf="@id/btn6" />
+
+            <!-- ===== Quick access grid: row 2 ===== -->
+            <ImageButton
+                android:id="@+id/btn7"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="53dp"
+                android:layout_marginTop="28dp"
+                android:background="@drawable/bg_action_circle"
+                android:contentDescription="Medical Help"
+                app:layout_constraintEnd_toStartOf="@+id/btn8"
+                app:layout_constraintStart_toStartOf="@id/btn3"
+                app:layout_constraintTop_toBottomOf="@id/btn3"
+                app:srcCompat="@drawable/ic_medical" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Medical"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintStart_toStartOf="@id/btn7"
+                app:layout_constraintEnd_toEndOf="@id/btn7"
+                app:layout_constraintTop_toBottomOf="@id/btn7" />
+
+            <ImageButton
+                android:id="@+id/btn8"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="53dp"
+                android:layout_marginEnd="53dp"
+                android:background="@drawable/bg_action_circle"
+                android:contentDescription="Report an Incident"
+                app:layout_constraintEnd_toStartOf="@+id/btn9"
+                app:layout_constraintStart_toEndOf="@+id/btn7"
+                app:layout_constraintTop_toTopOf="@id/btn7"
+                app:srcCompat="@drawable/ic_report" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Report"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintStart_toStartOf="@id/btn8"
+                app:layout_constraintEnd_toEndOf="@id/btn8"
+                app:layout_constraintTop_toBottomOf="@id/btn8" />
+
+            <ImageButton
+                android:id="@+id/btn9"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="53dp"
+                android:background="@drawable/bg_action_circle"
+                android:contentDescription="Campus Map"
+                app:layout_constraintEnd_toStartOf="@+id/btn10"
+                app:layout_constraintStart_toEndOf="@+id/btn8"
+                app:layout_constraintTop_toTopOf="@id/btn7"
+                app:srcCompat="@drawable/ic_map" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Map"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintStart_toStartOf="@id/btn9"
+                app:layout_constraintEnd_toEndOf="@id/btn9"
+                app:layout_constraintTop_toBottomOf="@id/btn9" />
+
+            <ImageButton
+                android:id="@+id/btn10"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="53dp"
+                android:background="@drawable/bg_action_circle"
+                android:contentDescription="Counseling and Wellness"
+                app:layout_constraintEnd_toEndOf="@id/btn6"
+                app:layout_constraintStart_toEndOf="@+id/btn9"
+                app:layout_constraintTop_toTopOf="@id/btn7"
+                app:srcCompat="@drawable/ic_counseling" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Wellness"
+                android:textSize="11sp"
+                android:gravity="center"
+                android:textColor="@color/text_secondary"
+                app:layout_constraintStart_toStartOf="@id/btn10"
+                app:layout_constraintEnd_toEndOf="@id/btn10"
+                app:layout_constraintTop_toBottomOf="@id/btn10" />
+
+            <!-- ===== Recent alerts section ===== -->
+            <TextView
+                android:id="@+id/tvAlertsHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="16dp"
+                android:text="Recent Alerts"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn7" />
+
+            <TextView
+                android:id="@+id/tvSeeAllAlerts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="See all"
+                android:textColor="@color/accent_red"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvAlertsHeader"
+                app:layout_constraintBottom_toBottomOf="@id/tvAlertsHeader" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAlerts"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="24dp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                tools:listitem="@layout/item_alert"
+                tools:itemCount="3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAlertsHeader"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom navigation bar: Home | Map | SOS | Alerts | Profile -->
+    <include
+        android:id="@+id/bottomNav"
+        layout="@layout/layout_bottom_nav"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

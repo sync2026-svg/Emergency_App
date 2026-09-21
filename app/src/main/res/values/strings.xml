@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">University Emergency App</string>
+    <string name="text1">text1</string>
+    <string name="logo">Emergency App</string>
+    <string name="profile">TODO</string>
+    <string name="sos">SOS</string>
+    <string name="get_started">Get Started</string>
+    <string name="imgbg">imgbg</string>
+    <string name="already_registered_candidate">Already Registered candidate ?</string>
+    <string name="login">Login</string>
+    <string name="cancel_and_close">Cancel and close</string>
+</resources>

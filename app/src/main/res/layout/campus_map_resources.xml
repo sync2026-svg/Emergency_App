@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/map_bg"
+    tools:context=".Home">
+
+    <!-- Pure DHSGSU Campus Map Container -->
+    <FrameLayout
+        android:id="@+id/campusMapContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/map_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomInfoSheet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Original Interactive Map of Dr. Harisingh Gour Vishwavidyalaya Campus (Google Maps) -->
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/campusMapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Interactive map of Dr. Harisingh Gour Vishwavidyalaya campus"
+            app:cameraTargetLat="23.8315"
+            app:cameraTargetLng="78.7810"
+            app:cameraZoom="16.5"
+            app:cameraTilt="0"
+            app:cameraBearing="0"
+            app:mapType="normal"
+            app:uiZoomControls="false"
+            app:uiCompass="true" />
+        <!-- Overlay for emergency point markers, positioned dynamically -->
+        <FrameLayout
+            android:id="@+id/markerOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="false" />
+
+    </FrameLayout>
+
+    <!-- Top floating search bar for campus locations -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/searchCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_search"
+                android:contentDescription="Search icon"
+                app:tint="@color/text_secondary" />
+
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:autofillHints="none"
+                android:background="@null"
+                android:hint="Search DHSGSU Dept, Hostel, Security..."
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:singleLine="true"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint" />
+
+            <ImageView
+                android:id="@+id/resetZoomIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_revert"
+                android:contentDescription="Reset zoom"
+                app:tint="@color/text_secondary" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Category legend filter chips -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/legendChipGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/searchCard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:singleLine="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSecurity"
+            style="@style/CampusMapChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Security" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipMedical"
+            style="@style/CampusMapChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medical" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipHostel"
+            style="@style/CampusMapChip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hostels" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Emergency SOS Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/sosFab"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@android:drawable/ic_dialog_alert"
+        app:backgroundTint="@color/accent_red"
+        app:tint="@color/white"
+        app:elevation="8dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomInfoSheet"
+        app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="Emergency SOS button" />
+
+    <!-- Zoom controls floating buttons -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomInfoSheet"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/zoomInFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_input_add"
+            app:fabSize="mini"
+            app:backgroundTint="@color/white"
+            app:tint="@color/text_primary"
+            android:contentDescription="Zoom in" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/zoomOutFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:src="@android:drawable/ic_media_previous"
+            app:fabSize="mini"
+            app:backgroundTint="@color/white"
+            app:tint="@color/text_primary"
+            android:contentDescription="Zoom out" />
+    </LinearLayout>
+
+    <!-- Bottom info card: Dr. Harisingh Gour Vishwavidyalaya Emergency Point details -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottomInfoSheet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/nearestPointLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DHSGSU Selected Location"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/nearestPointName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Tap a marker on DHSGSU campus map"
+                android:textSize="17sp"
+                android:textColor="@color/text_primary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nearestPointDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Dr. Harisingh Gour Vishwavidyalaya, Sagar (M.P.)"
+                android:textSize="13sp"
+                android:textColor="@color/text_secondary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/directionsButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Center on Map"
+                    app:backgroundTint="@color/brand_blue" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/callSecurityButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Call Security"
+                    app:backgroundTint="@color/accent_red" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
