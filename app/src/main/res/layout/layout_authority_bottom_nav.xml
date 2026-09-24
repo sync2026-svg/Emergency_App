@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/authNavBarBg"
+    android:layout_width="match_parent"
+    android:layout_height="66dp"
+    android:background="@drawable/bg_bottom_nav"
+    android:orientation="horizontal"
+    android:paddingTop="8dp"
+    android:baselineAligned="false"
+    tools:ignore="HardcodedText">
+
+    <!-- Dashboard Tab -->
+    <LinearLayout
+        android:id="@+id/tabAuthDashboard"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="Dashboard"
+            android:src="@drawable/ic_shield_check"
+            app:tint="@color/nav_icon_inactive" />
+
+        <TextView
+            android:id="@+id/labelAuthDashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Dashboard"
+            android:textColor="@color/nav_text_inactive"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- History Tab -->
+    <LinearLayout
+        android:id="@+id/tabAuthHistory"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="History"
+            android:src="@drawable/ic_book"
+            app:tint="@color/nav_icon_inactive" />
+
+        <TextView
+            android:id="@+id/labelAuthHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="History"
+            android:textColor="@color/nav_text_inactive"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Users Tab -->
+    <LinearLayout
+        android:id="@+id/tabAuthUsers"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="Users"
+            android:src="@drawable/ic_profile_24"
+            app:tint="@color/nav_icon_inactive" />
+
+        <TextView
+            android:id="@+id/labelAuthUsers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Users"
+            android:textColor="@color/nav_text_inactive"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Alerts Tab -->
+    <LinearLayout
+        android:id="@+id/tabAuthAlerts"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="Alerts"
+            android:src="@drawable/ic_alerts_24"
+            app:tint="@color/nav_icon_inactive" />
+
+        <TextView
+            android:id="@+id/labelAuthAlerts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Alerts"
+            android:textColor="@color/nav_text_inactive"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Logout Tab -->
+    <LinearLayout
+        android:id="@+id/tabAuthLogout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="Logout"
+            android:src="@drawable/ic_logout"
+            app:tint="@color/nav_icon_inactive" />
+
+        <TextView
+            android:id="@+id/labelAuthLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Logout"
+            android:textColor="@color/nav_text_inactive"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+</LinearLayout>

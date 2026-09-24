@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    android:fillViewport="true"
+    tools:context=".EditProfileActivity"
+    tools:ignore="HardcodedText,ImageContrastCheck,TouchTargetSizeCheck">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="32dp">
+
+        <!-- Back button -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="36dp"
+            android:background="@null"
+            android:contentDescription="Go back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Edit Profile"
+            android:textColor="@color/text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnBack" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Update your university personal and academic details."
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <!-- Profile Avatar Box -->
+        <FrameLayout
+            android:id="@+id/avatarContainer"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="48dp"
+                app:cardElevation="3dp">
+
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Profile photo"
+                    android:padding="22dp"
+                    app:srcCompat="@drawable/ic_person"
+                    app:tint="@color/brand_blue" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Camera Edit Badge -->
+            <FrameLayout
+                android:id="@+id/btnChangePhoto"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/bg_sos_circle"
+                android:elevation="4dp">
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Change photo"
+                    app:srcCompat="@drawable/ic_camera"
+                    app:tint="@color/white" />
+            </FrameLayout>
+        </FrameLayout>
+
+        <!-- Full Name -->
+        <TextView
+            android:id="@+id/tvNameLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Full Name"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/avatarContainer" />
+
+        <LinearLayout
+            android:id="@+id/layoutFullName"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNameLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="Person icon"
+                app:srcCompat="@drawable/ic_person"
+                app:tint="@color/text_primary" />
+
+            <EditText
+                android:id="@+id/etFullName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints="name"
+                android:background="@null"
+                android:hint="e.g. Aditi Sharma"
+                android:inputType="textPersonName"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Student / Employee ID -->
+        <TextView
+            android:id="@+id/tvIdLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="University ID / Roll No."
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutFullName" />
+
+        <LinearLayout
+            android:id="@+id/layoutStudentId"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvIdLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="ID icon"
+                app:srcCompat="@drawable/ic_id_card"
+                app:tint="@color/text_primary" />
+
+            <EditText
+                android:id="@+id/etStudentId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints=""
+                android:background="@null"
+                android:hint="e.g. DHSGSU2026041"
+                android:inputType="textCapCharacters"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/tvEmailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="University Email"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutStudentId" />
+
+        <LinearLayout
+            android:id="@+id/layoutEmail"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEmailLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="Email icon"
+                app:srcCompat="@drawable/ic_email"
+                app:tint="@color/text_primary" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints="emailAddress"
+                android:background="@null"
+                android:hint="aditi.sharma@dhsgsu.edu.in"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Gender Selection -->
+        <TextView
+            android:id="@+id/tvGenderLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Gender"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutEmail" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/genderChipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            app:singleSelection="true"
+            app:selectionRequired="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvGenderLabel">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other" />
+        </com.google.android.material.chip.ChipGroup>
+
+        <!-- Phone Number -->
+        <TextView
+            android:id="@+id/tvPhoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Phone Number"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/genderChipGroup" />
+
+        <LinearLayout
+            android:id="@+id/layoutPhone"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPhoneLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="Phone icon"
+                app:srcCompat="@drawable/ic_phone"
+                app:tint="@color/text_primary" />
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints="phoneNumber"
+                android:background="@null"
+                android:hint="+91 98765 43210"
+                android:inputType="phone"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Department -->
+        <TextView
+            android:id="@+id/tvDepartmentLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Department / Course"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutPhone" />
+
+        <LinearLayout
+            android:id="@+id/layoutDepartment"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDepartmentLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="Department icon"
+                app:srcCompat="@drawable/ic_book"
+                app:tint="@color/text_primary" />
+
+            <EditText
+                android:id="@+id/etDepartment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints=""
+                android:background="@null"
+                android:hint="Computer Science &amp; Applications"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Hostel / Residence -->
+        <TextView
+            android:id="@+id/tvHostelLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Hostel / Local Address"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutDepartment" />
+
+        <LinearLayout
+            android:id="@+id/layoutHostel"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHostelLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="Hostel icon"
+                app:srcCompat="@drawable/ic_home"
+                app:tint="@color/text_primary" />
+
+            <EditText
+                android:id="@+id/etHostel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints="postalAddress"
+                android:background="@null"
+                android:hint="Girls Hostel Block A, Room 204"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Save button -->
+        <TextView
+            android:id="@+id/btnSaveProfile"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/bg_button_primary"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="Save Profile"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutHostel" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

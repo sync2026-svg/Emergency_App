@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    android:fillViewport="true"
+    tools:context=".MedicalInfoActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="32dp">
+
+        <!-- Back button -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="36dp"
+            android:background="@null"
+            android:contentDescription="@string/go_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back"
+            tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/medical_information"
+            android:textColor="@color/text_primary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnBack" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/campus_first_responders_amp_health_center_can_access_these_details_in_an_emergency"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <!-- Blood Group Dropdown -->
+        <TextView
+            android:id="@+id/tvBloodGroupLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/blood_group"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitle" />
+
+        <LinearLayout
+            android:id="@+id/layoutBloodGroup"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBloodGroupLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/blood_group_icon"
+                app:srcCompat="@drawable/ic_medical"
+                app:tint="@color/text_primary"
+                tools:ignore="ImageContrastCheck" />
+
+            <Spinner
+                android:id="@+id/spinnerBloodGroup"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@null"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/dropdown_arrow"
+                app:srcCompat="@drawable/ic_dropdown"
+                app:tint="@color/text_primary"
+                tools:ignore="ImageContrastCheck" />
+        </LinearLayout>
+
+        <!-- Medical Conditions -->
+        <TextView
+            android:id="@+id/tvConditionsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/medical_conditions_chronic_illnesses"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutBloodGroup" />
+
+        <LinearLayout
+            android:id="@+id/layoutConditions"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvConditionsLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/medical_icon"
+                app:srcCompat="@drawable/ic_medical"
+                app:tint="@color/text_primary"
+                tools:ignore="ImageContrastCheck" />
+
+            <EditText
+                android:id="@+id/etConditions"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints=""
+                android:background="@null"
+                android:hint="@string/e_g_asthma_diabetes_none"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp"
+                tools:ignore="TextContrastCheck" />
+        </LinearLayout>
+
+        <!-- Known Allergies -->
+        <TextView
+            android:id="@+id/tvAllergiesLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/known_allergies"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutConditions" />
+
+        <LinearLayout
+            android:id="@+id/layoutAllergies"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAllergiesLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/allergies_icon"
+                app:srcCompat="@drawable/ic_alert"
+                app:tint="@color/text_primary"
+                tools:ignore="ImageContrastCheck" />
+
+            <EditText
+                android:id="@+id/etAllergies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints=""
+                android:background="@null"
+                android:hint="@string/e_g_penicillin_peanuts_dust"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textColorHint="#546E7A"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Emergency Medications -->
+        <TextView
+            android:id="@+id/tvMedicationsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/emergency_medications_required"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutAllergies" />
+
+        <LinearLayout
+            android:id="@+id/layoutMedications"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvMedicationsLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/medications_icon"
+                app:srcCompat="@drawable/ic_medical"
+                app:tint="@color/text_primary"
+                tools:ignore="ImageContrastCheck" />
+
+            <EditText
+                android:id="@+id/etMedications"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints=""
+                android:background="@null"
+                android:hint="@string/e_g_inhaler_salbutamol_epipen"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp"
+                tools:ignore="TextContrastCheck" />
+        </LinearLayout>
+
+        <!-- Student Health Insurance / ID -->
+        <TextView
+            android:id="@+id/tvInsuranceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/student_health_card_policy_no"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutMedications" />
+
+        <LinearLayout
+            android:id="@+id/layoutInsurance"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:gravity="center_vertical"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvInsuranceLabel">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="@string/health_card_icon"
+                app:srcCompat="@drawable/ic_shield_check"
+                app:tint="@color/text_primary"
+                tools:ignore="ImageContrastCheck" />
+
+            <EditText
+                android:id="@+id/etInsurance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:autofillHints=""
+                android:background="@null"
+                android:hint="@string/e_g_dhsgsu_med_88392"
+                android:inputType="textCapCharacters"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
+                android:textSize="14sp"
+                tools:ignore="TextContrastCheck" />
+        </LinearLayout>
+
+        <!-- Save button -->
+        <TextView
+            android:id="@+id/btnSaveMedical"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/bg_button_primary"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/save_medical_info"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutInsurance" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

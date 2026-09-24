@@ -1,6 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">University Emergency App</string>
-    <string name="text1">text1</string>
+    <string name="text1" tools:ignore="Typos">text1</string>
     <string name="logo">Emergency App</string>
     <string name="profile">TODO</string>
     <string name="sos">SOS</string>
@@ -9,4 +9,23 @@
     <string name="already_registered_candidate">Already Registered candidate ?</string>
     <string name="login">Login</string>
     <string name="cancel_and_close">Cancel and close</string>
+    <string name="allergies_icon">Allergies icon</string>
+    <string name="blood_group_icon">Blood group icon</string>
+    <string name="dropdown_arrow">Dropdown arrow</string>
+    <string name="health_card_icon">Health card icon</string>
+    <string name="medical_icon">Medical icon</string>
+    <string name="medications_icon">Medications icon</string>
+    <string name="go_back">Go back</string>
+    <string name="save_medical_info">Save Medical Info</string>
+    <string name="e_g_penicillin_peanuts_dust">e.g. Penicillin, Peanuts, Dust</string>
+    <string name="e_g_asthma_diabetes_none">e.g. Asthma, Diabetes, None</string>
+    <string name="e_g_dhsgsu_med_88392">e.g. DHSGSU-MED-88392</string>
+    <string name="e_g_inhaler_salbutamol_epipen">e.g. Inhaler (Salbutamol), EpiPen</string>
+    <string name="known_allergies">Known Allergies</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="medical_conditions_chronic_illnesses">Medical Conditions / Chronic Illnesses</string>
+    <string name="student_health_card_policy_no">Student Health Card / Policy No.</string>
+    <string name="emergency_medications_required">Emergency Medications Required</string>
+    <string name="campus_first_responders_amp_health_center_can_access_these_details_in_an_emergency"><![CDATA[Campus first responders & health center can access these details in an emergency.]]></string>
+    <string name="medical_information">Medical Information</string>
 </resources>
