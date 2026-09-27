@@ -104,4 +104,10 @@ public class AlertRepository {
         }
         return null;
     }
+
+    public static synchronized void deleteAlert(Alert alert) {
+        if (sAlerts != null && alert != null) {
+            sAlerts.remove(alert);
+        }
+    }
 }

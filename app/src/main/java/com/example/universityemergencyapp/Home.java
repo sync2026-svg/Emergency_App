@@ -32,7 +32,10 @@ public class Home extends AppCompatActivity {
 
         // ===== Big SOS button =====
         TextView btnSOS = findViewById(R.id.btnSOS);
-        btnSOS.setOnClickListener(v -> startActivity(new Intent(this, SosConfirmActivity.class)));
+        btnSOS.setOnClickListener(v -> {
+            SosRepository.getInstance().triggerSosFromUser(this);
+            startActivity(new Intent(this, SosActiveActivity.class));
+        });
 
         // ===== Quick access grid =====
         ImageButton btnPolice = findViewById(R.id.btn3);

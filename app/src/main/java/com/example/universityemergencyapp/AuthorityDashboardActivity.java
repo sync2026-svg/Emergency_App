@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,8 +46,7 @@ public class AuthorityDashboardActivity extends AppCompatActivity implements Sos
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authority_dashboard);
 
-        ImageButton btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> finish());
+
 
         tvSosUser = findViewById(R.id.tvSosUser);
         tvSosLocation = findViewById(R.id.tvSosLocation);

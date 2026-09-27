@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,7 +51,23 @@ public class AuthorityAlertsActivity extends AppCompatActivity {
             intent.putExtra(AlertDetailActivity.EXTRA_ALERT_ID, alert.getId());
             startActivity(intent);
         });
+
+        adapter.setOnAlertDeleteListener((alert, position) -> showDeleteConfirmationDialog(alert, position));
+
         rvPublishedAlerts.setAdapter(adapter);
+    }
+
+    private void showDeleteConfirmationDialog(Alert alert, int position) {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Broadcast Alert")
+                .setMessage("Are you sure you want to remove \"" + alert.getTitle() + "\"? It will be removed from all campus devices.")
+                .setPositiveButton("Delete", (dialog, which) -> {
+                    AlertRepository.deleteAlert(alert);
+                    adapter.removeAt(position);
+                    Toast.makeText(this, "Alert deleted successfully", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
     private void publishAlert() {

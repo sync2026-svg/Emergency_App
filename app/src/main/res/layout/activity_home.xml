@@ -145,7 +145,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/btn4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvQuickAccess"
-                app:srcCompat="@drawable/ic_police" />
+                app:srcCompat="@drawable/ic_police"
+                app:tint="@color/brand_blue" />
 
             <TextView
                 android:layout_width="0dp"
@@ -170,7 +171,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/btn5"
                 app:layout_constraintStart_toEndOf="@+id/btn3"
                 app:layout_constraintTop_toTopOf="@id/btn3"
-                app:srcCompat="@drawable/ic_ambulance" />
+                app:srcCompat="@drawable/ic_ambulance"
+                app:tint="@color/accent_red" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -194,7 +196,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/btn6"
                 app:layout_constraintStart_toEndOf="@+id/btn4"
                 app:layout_constraintTop_toTopOf="@id/btn3"
-                app:srcCompat="@drawable/ic_fire" />
+                app:srcCompat="@drawable/ic_fire"
+                app:tint="#FF5722" />
 
             <TextView
                 android:layout_width="0dp"
@@ -218,7 +221,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/btn5"
                 app:layout_constraintTop_toTopOf="@id/btn3"
-                app:srcCompat="@drawable/ic_security" />
+                app:srcCompat="@drawable/ic_security"
+                app:tint="#2E7D32" />
 
             <TextView
                 android:layout_width="0dp"
@@ -244,7 +248,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/btn8"
                 app:layout_constraintStart_toStartOf="@id/btn3"
                 app:layout_constraintTop_toBottomOf="@id/btn3"
-                app:srcCompat="@drawable/ic_medical" />
+                app:srcCompat="@drawable/ic_medical"
+                app:tint="#D81B60" />
 
             <TextView
                 android:layout_width="0dp"
@@ -269,7 +274,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/btn9"
                 app:layout_constraintStart_toEndOf="@+id/btn7"
                 app:layout_constraintTop_toTopOf="@id/btn7"
-                app:srcCompat="@drawable/ic_report" />
+                app:srcCompat="@drawable/ic_report"
+                app:tint="#F57C00" />
 
             <TextView
                 android:layout_width="0dp"
@@ -293,7 +299,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/btn10"
                 app:layout_constraintStart_toEndOf="@+id/btn8"
                 app:layout_constraintTop_toTopOf="@id/btn7"
-                app:srcCompat="@drawable/ic_map" />
+                app:srcCompat="@drawable/ic_map"
+                app:tint="#1976D2" />
 
             <TextView
                 android:layout_width="0dp"
@@ -317,7 +324,8 @@
                 app:layout_constraintEnd_toEndOf="@id/btn6"
                 app:layout_constraintStart_toEndOf="@+id/btn9"
                 app:layout_constraintTop_toTopOf="@id/btn7"
-                app:srcCompat="@drawable/ic_counseling" />
+                app:srcCompat="@drawable/ic_counseling"
+                app:tint="#00897B" />
 
             <TextView
                 android:layout_width="0dp"
@@ -383,7 +391,7 @@
     <include
         android:id="@+id/bottomNav"
         layout="@layout/layout_bottom_nav"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

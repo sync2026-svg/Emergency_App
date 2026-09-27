@@ -25,13 +25,11 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-/**
- * Displays the DHSGSU campus map with a few sample emergency-point markers.
- * Frontend only: markers are hard-coded locally, nothing is fetched from a backend.
- * NOTE: requires the Google Maps SDK dependency (play-services-maps) and a valid
- * Maps API key declared in AndroidManifest.xml to actually render map tiles.
- */
 public class CampusMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    public static final String EXTRA_LAT = "extra_lat";
+    public static final String EXTRA_LNG = "extra_lng";
+    public static final String EXTRA_TITLE = "extra_title";
 
     private MapView campusMapView;
     private GoogleMap googleMap;
@@ -81,7 +79,10 @@ public class CampusMapActivity extends AppCompatActivity implements OnMapReadyCa
         chipMedical.setOnClickListener(v -> Toast.makeText(this, "Showing Medical points", Toast.LENGTH_SHORT).show());
         chipHostel.setOnClickListener(v -> Toast.makeText(this, "Showing Hostels", Toast.LENGTH_SHORT).show());
 
-        sosFab.setOnClickListener(v -> startActivity(new Intent(this, SosConfirmActivity.class)));
+        sosFab.setOnClickListener(v -> {
+            SosRepository.getInstance().triggerSosFromUser(this);
+            startActivity(new Intent(this, SosActiveActivity.class));
+        });
 
         zoomInFab.setOnClickListener(v -> {
             if (googleMap != null) googleMap.animateCamera(CameraUpdateFactory.zoomIn());
@@ -94,12 +95,38 @@ public class CampusMapActivity extends AppCompatActivity implements OnMapReadyCa
 
         callSecurityButton.setOnClickListener(v ->
                 startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:100"))));
+
+        BottomNavHelper.setup(this, BottomNavHelper.Tab.MAP);
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(campusCenter, 16.5f));
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(EXTRA_LAT) && intent.hasExtra(EXTRA_LNG)) {
+            double targetLat = intent.getDoubleExtra(EXTRA_LAT, campusCenter.latitude);
+            double targetLng = intent.getDoubleExtra(EXTRA_LNG, campusCenter.longitude);
+            String title = intent.getStringExtra(EXTRA_TITLE);
+            if (title == null) title = "🚨 User Live SOS Location";
+
+            LatLng targetLatLng = new LatLng(targetLat, targetLng);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(targetLatLng, 17.5f));
+
+            Marker sosMarker = googleMap.addMarker(new MarkerOptions()
+                    .position(targetLatLng)
+                    .title(title));
+            if (sosMarker != null) {
+                sosMarker.showInfoWindow();
+            }
+
+            if (nearestPointName != null) nearestPointName.setText(title);
+            if (nearestPointDistance != null) {
+                nearestPointDistance.setText(String.format("Exact Coordinates: Lat %.5f°, Lng %.5f°", targetLat, targetLng));
+            }
+        } else {
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(campusCenter, 16.5f));
+        }
 
         Marker security = googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(23.8318, 78.7805))

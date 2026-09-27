@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/authNavBarBg"
     android:layout_width="match_parent"
-    android:layout_height="66dp"
+    android:layout_height="76dp"
     android:background="@drawable/bg_bottom_nav"
     android:orientation="horizontal"
-    android:paddingTop="8dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="6dp"
+    android:gravity="center"
     android:baselineAligned="false"
     tools:ignore="HardcodedText">
 

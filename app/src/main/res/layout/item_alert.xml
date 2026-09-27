@@ -64,5 +64,16 @@
                 android:textColor="@color/text_hint"
                 android:textSize="11sp" />
         </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnDeleteAlert"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Delete alert"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_close"
+            app:tint="@color/accent_red" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
