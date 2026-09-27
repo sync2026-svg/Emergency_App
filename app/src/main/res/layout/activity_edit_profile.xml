@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,7 +27,8 @@
             android:contentDescription="Go back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_back"
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -240,48 +242,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- Gender Selection -->
-        <TextView
-            android:id="@+id/tvGenderLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Gender"
-            android:textColor="@color/text_primary"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layoutEmail" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/genderChipGroup"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            app:singleSelection="true"
-            app:selectionRequired="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvGenderLabel">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipFemale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Female" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipMale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Male" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipOther"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Other" />
-        </com.google.android.material.chip.ChipGroup>
 
         <!-- Phone Number -->
         <TextView
@@ -294,7 +255,7 @@
             android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/genderChipGroup" />
+            app:layout_constraintTop_toBottomOf="@id/layoutEmail" />
 
         <LinearLayout
             android:id="@+id/layoutPhone"
