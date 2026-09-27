@@ -19,9 +19,9 @@
         android:paddingEnd="20dp"
         android:paddingTop="48dp"
         android:paddingBottom="20dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:id="@+id/pulseDot"
@@ -44,7 +44,7 @@
             android:id="@+id/tvElapsedTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:42"
+            android:text="00:00"
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold" />
@@ -53,10 +53,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/statusHeader"
         app:layout_constraintBottom_toTopOf="@id/btnCancelSos"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/statusHeader">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,27 +64,160 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Responder card -->
+            <!-- Rapido Style Live Map Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardMapContainer"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="3dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/sosMapView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="Live tracking map of approaching campus security patrol"
+                        app:cameraTargetLat="23.8315"
+                        app:cameraTargetLng="78.7810"
+                        app:cameraZoom="16.5"
+                        app:mapType="normal"
+                        app:uiZoomControls="false" />
+
+                    <!-- Live Distance Badge Overlay -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|start"
+                        android:layout_margin="12dp"
+                        android:background="@drawable/badge_severity_pill"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:contentDescription="Live location"
+                            app:srcCompat="@drawable/ic_location"
+                            app:tint="@color/white" />
+
+                        <TextView
+                            android:id="@+id/tvLiveDistancePill"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:text="📍 Patrol 0.8 km away · Approaching"
+                            android:textColor="@color/white"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </FrameLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Rapido Style ETA & Distance Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/white">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvEtaDisplay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3 MINS"
+                            android:textColor="@color/accent_red"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EST. ARRIVAL"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@color/divider" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvDistanceDetail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Distance: 800 meters away"
+                            android:textColor="@color/text_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <ProgressBar
+                            android:id="@+id/pbDistanceProgress"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="8dp"
+                            android:layout_marginTop="6dp"
+                            android:max="800"
+                            android:progress="200"
+                            android:progressDrawable="@drawable/bg_button_primary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Responder Profile Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="@drawable/bg_action_circle"
+                        android:contentDescription="Responder photo"
                         android:padding="10dp"
-                        android:contentDescription="Responder"
                         app:srcCompat="@drawable/ic_security"
                         app:tint="@color/accent_red" />
 
@@ -96,12 +229,12 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvResponderStatus"
+                            android:id="@+id/tvResponderName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Campus Security notified"
+                            android:text="Officer Vikram Singh"
                             android:textColor="@color/text_primary"
-                            android:textSize="14sp"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -109,64 +242,29 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Patrol Unit 2 · ETA 4 min"
+                            android:text="Patrol Bike #CP-104 · Campus Security"
                             android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
                     </LinearLayout>
 
                     <ImageButton
                         android:id="@+id/btnCallResponder"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:background="@drawable/bg_action_circle"
                         android:contentDescription="Call responder"
-                        android:padding="9dp"
+                        android:padding="11dp"
                         app:srcCompat="@drawable/ic_phone"
                         app:tint="@color/accent_red"
                         tools:ignore="TouchTargetSizeCheck" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Live location card -->
+            <!-- Response Timeline -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Your Live Location"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <FrameLayout
-                android:id="@+id/miniMapPreview"
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_card">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Map preview — sharing live location"
-                    android:textColor="@color/text_hint"
-                    android:textSize="12sp" />
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/tvLocationLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Near Boys Hostel Block C, DHSGSU Main Campus"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp" />
-
-            <!-- Timeline -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:text="Response Timeline"
                 android:textColor="@color/text_primary"
                 android:textSize="14sp"
@@ -183,7 +281,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="14dp">
+                    android:paddingBottom="12dp">
 
                     <ImageView
                         android:layout_width="18dp"
@@ -197,7 +295,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="10dp"
-                        android:text="SOS alert sent with your location — 0:00"
+                        android:text="SOS alert sent with exact location — 0:00"
                         android:textColor="@color/text_primary"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -206,7 +304,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingBottom="14dp">
+                    android:paddingBottom="12dp">
 
                     <ImageView
                         android:layout_width="18dp"
@@ -220,7 +318,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="10dp"
-                        android:text="Campus Security acknowledged — 0:12"
+                        android:text="Campus Security Command assigned Patrol Unit 2 — 0:05"
                         android:textColor="@color/text_primary"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -238,15 +336,15 @@
                         app:tint="@color/status_warning" />
 
                     <TextView
+                        android:id="@+id/tvTimelineStatus"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginStart="10dp"
-                        android:text="Patrol Unit 2 en route — ETA 4 min"
+                        android:text="Patrol Bike #CP-104 approaching location"
                         android:textColor="@color/text_primary"
                         android:textSize="13sp" />
                 </LinearLayout>
-
             </LinearLayout>
 
         </LinearLayout>
@@ -267,7 +365,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

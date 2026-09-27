@@ -167,6 +167,7 @@
                         android:id="@+id/dialogMapView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:contentDescription="Live emergency map view of student location"
                         app:cameraTargetLat="23.8315"
                         app:cameraTargetLng="78.7810"
                         app:cameraZoom="16.5"

@@ -175,7 +175,7 @@
             android:layout_height="26dp"
             android:layout_gravity="center"
             android:contentDescription="SOS"
-            android:src="@drawable/ic_sos_person_24" />
+            android:src="@drawable/ic_sos" />
     </FrameLayout>
 
 </FrameLayout>
