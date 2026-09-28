@@ -81,7 +81,9 @@ public class ProfileActivity extends AppCompatActivity {
         View.OnClickListener comingSoon = v ->
                 Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
 
-        rowEditProfile.setOnClickListener(comingSoon);
+        rowEditProfile.setOnClickListener(v -> {
+            startActivity(new Intent(this, Register.class));
+        });
         rowEmergencyContacts.setOnClickListener(comingSoon);
         rowMedicalInfo.setOnClickListener(comingSoon);
         rowSafetyGuide.setOnClickListener(comingSoon);
