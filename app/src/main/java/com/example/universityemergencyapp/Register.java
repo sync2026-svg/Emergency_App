@@ -32,7 +32,7 @@ public class Register extends AppCompatActivity {
     private boolean isPasswordVisible = false;
 
     EditText etName, etId, etEmail, etPhone, etPassword, etConfirmPassword ;
-    ImageButton btnTogglePassword, btnBack ;
+    ImageButton btnTogglePassword ;
     CheckBox cbTerms ;
     TextView btnRegister, tvGoLogin ;
 
@@ -53,7 +53,6 @@ public class Register extends AppCompatActivity {
          database = FirebaseDatabase.getInstance();
          currentUser = FirebaseAuth.getInstance().getCurrentUser() ;
 
-         btnBack = findViewById(R.id.btnBack);
          etName = findViewById(R.id.etName);
          etId = findViewById(R.id.etId);
          etEmail = findViewById(R.id.etEmail);
@@ -66,7 +65,7 @@ public class Register extends AppCompatActivity {
          btnRegister = findViewById(R.id.btnRegister);
          tvGoLogin = findViewById(R.id.tvGoLogin);
 
-        btnBack.setOnClickListener(v -> finish());
+
 
         btnTogglePassword.setOnClickListener(v -> {
             isPasswordVisible = !isPasswordVisible;

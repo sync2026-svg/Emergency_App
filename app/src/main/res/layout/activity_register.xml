@@ -28,18 +28,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- ===== Back button (sits on top of the accent banner) ===== -->
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="16dp"
-            android:background="@null"
-            android:contentDescription="Go back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back"
-            app:tint="@color/white"
-            tools:ignore="TouchTargetSizeCheck" />
 
         <ImageView
             android:id="@+id/imgLogo"

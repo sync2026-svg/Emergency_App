@@ -82,10 +82,15 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
 
         rowEditProfile.setOnClickListener(v -> {
-            startActivity(new Intent(this, Register.class));
+            startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
         });
-        rowEmergencyContacts.setOnClickListener(comingSoon);
-        rowMedicalInfo.setOnClickListener(comingSoon);
+        rowEmergencyContacts.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, EmergencyContactsActivity.class));
+
+        });
+        rowMedicalInfo.setOnClickListener(v ->{
+            startActivity(new Intent(ProfileActivity.this, MedicalInfoActivity.class));
+        });
         rowSafetyGuide.setOnClickListener(comingSoon);
         rowHelpCenter.setOnClickListener(comingSoon);
         rowMyReports.setOnClickListener(comingSoon);
@@ -102,7 +107,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnLogout.setOnClickListener(v -> {
             Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, Login.class);
+            Intent intent = new Intent(ProfileActivity.this, Login.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
