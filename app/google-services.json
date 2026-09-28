@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "997937447090",
+    "project_id": "sos12-ff75b",
+    "storage_bucket": "sos12-ff75b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997937447090:android:fcda264765eb1432a689ab",
+        "android_client_info": {
+          "package_name": "com.example.universityemergencyapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWgU2fq3yAW438nQuqp8vR2-rJ8nlpsqM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

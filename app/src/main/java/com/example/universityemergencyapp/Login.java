@@ -9,26 +9,39 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
 
     private boolean isPasswordVisible = false;
+    EditText etEmail, etPassword ;
+    ImageButton btnTogglePassword ;
+    TextView btnLogin, btnGuest, tvForgotPassword, tvGoRegister ;
+    String email, password ;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        EditText etEmail = findViewById(R.id.etEmail);
-        EditText etPassword = findViewById(R.id.etPassword);
-        ImageButton btnTogglePassword = findViewById(R.id.btnTogglePassword);
-        TextView btnLogin = findViewById(R.id.btnLogin);
-        TextView btnGuest = findViewById(R.id.btnGuest);
-        TextView tvForgotPassword = findViewById(R.id.tvForgotPassword);
-        TextView tvGoRegister = findViewById(R.id.tvGoRegister);
+        auth = FirebaseAuth.getInstance() ;
 
-        // Show / hide password
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        btnTogglePassword = findViewById(R.id.btnTogglePassword);
+        btnLogin = findViewById(R.id.btnLogin);
+        btnGuest = findViewById(R.id.btnGuest);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        tvGoRegister = findViewById(R.id.tvGoRegister);
+
+        //  logic for Toggle -> Hide/show password
         btnTogglePassword.setOnClickListener(v -> {
             isPasswordVisible = !isPasswordVisible;
             if (isPasswordVisible) {
@@ -41,8 +54,8 @@ public class Login extends AppCompatActivity {
 
         // Log in — frontend only, no backend call. Any valid-looking input succeeds.
         btnLogin.setOnClickListener(v -> {
-            String email = etEmail.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
+            email = etEmail.getText().toString().trim();
+            password = etPassword.getText().toString().trim();
 
             if (email.isEmpty()) {
                 etEmail.setError("Enter your email or student ID");
@@ -57,9 +70,22 @@ public class Login extends AppCompatActivity {
                 return;
             }
 
-            Toast.makeText(this, "Logging in…", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, Home.class));
-            finish();
+            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()) {
+
+                        Toast.makeText(Login.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Login.this, Home.class));
+                        finish();
+                    }
+                    else {
+                        Toast.makeText(Login.this, "Not successful", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+
         });
 
         // Guest access — straight to Home with limited/emergency-only features

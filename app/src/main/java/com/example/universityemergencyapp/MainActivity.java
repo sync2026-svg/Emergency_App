@@ -2,10 +2,12 @@ package com.example.universityemergencyapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -13,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView login ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button btnGetStarted = findViewById(R.id.button1);
-        TextView tvLogin = findViewById(R.id.login);
+
+        login = findViewById(R.id.textView2) ;
+
 
         // "Get Started" -> Register (new user onboarding)
         btnGetStarted.setOnClickListener(v -> {
@@ -33,8 +38,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // "Already registered? Login" -> Login screen
-        tvLogin.setOnClickListener(v -> {
+        login.setOnClickListener(v -> {
             startActivity(new Intent(this, Login.class));
         });
+
+
+
     }
 }

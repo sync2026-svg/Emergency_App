@@ -1,7 +1,7 @@
 package com.example.universityemergencyapp;
 
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -10,20 +10,34 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.universityemergencyapp.push.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView tvUserName;
-    private TextView tvUserMeta;
+    DatabaseReference myRef ;
+    FirebaseUser currentUser ;
+
+    TextView userName, student_id ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        tvUserName = findViewById(R.id.tvUserName);
-        tvUserMeta = findViewById(R.id.tvUserMeta);
+        userName = findViewById(R.id.tvUserName);
+        student_id = findViewById(R.id.tvUserMeta) ;
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         LinearLayout rowEditProfile = findViewById(R.id.rowEditProfile);
         LinearLayout rowEmergencyContacts = findViewById(R.id.rowEmergencyContacts);
@@ -35,18 +49,41 @@ public class ProfileActivity extends AppCompatActivity {
         Switch switchPushAlerts = findViewById(R.id.switchPushAlerts);
         TextView btnLogout = findViewById(R.id.btnLogout);
 
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            myRef = FirebaseDatabase.getInstance().getReference("Students");
+
+            myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        User student = snapshot.getValue(User.class);  // Use simple User (make sure import is correct)
+
+                        if (student != null) {
+
+                            userName.setText(student.getName());
+                            student_id.setText("Student · ID "+student.getId());
+                        } else {
+                            Toast.makeText(ProfileActivity.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(ProfileActivity.this, "No data found for this user", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(ProfileActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         View.OnClickListener comingSoon = v ->
                 Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
 
-        rowEditProfile.setOnClickListener(v ->
-                startActivity(new Intent(this, EditProfileActivity.class)));
-
-        rowEmergencyContacts.setOnClickListener(v ->
-                startActivity(new Intent(this, EmergencyContactsActivity.class)));
-
-        rowMedicalInfo.setOnClickListener(v ->
-                startActivity(new Intent(this, MedicalInfoActivity.class)));
-
+        rowEditProfile.setOnClickListener(comingSoon);
+        rowEmergencyContacts.setOnClickListener(comingSoon);
+        rowMedicalInfo.setOnClickListener(comingSoon);
         rowSafetyGuide.setOnClickListener(comingSoon);
         rowHelpCenter.setOnClickListener(comingSoon);
         rowMyReports.setOnClickListener(comingSoon);
@@ -70,19 +107,5 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         BottomNavHelper.setup(this, BottomNavHelper.Tab.PROFILE);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadProfileHeader();
-    }
-
-    private void loadProfileHeader() {
-        SharedPreferences prefs = getSharedPreferences(EditProfileActivity.PREFS_NAME, MODE_PRIVATE);
-        String name = prefs.getString(EditProfileActivity.KEY_USER_NAME, "Aditi Sharma");
-        String id = prefs.getString(EditProfileActivity.KEY_USER_ID, "DHSGSU2026041");
-        if (tvUserName != null) tvUserName.setText(name);
-        if (tvUserMeta != null) tvUserMeta.setText("Student · ID " + id);
     }
 }
