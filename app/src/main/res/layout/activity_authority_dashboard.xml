@@ -172,6 +172,24 @@
                         android:textSize="13sp"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="Select Security Officer to Dispatch:"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <Spinner
+                        android:id="@+id/spinnerSelectSecurity"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="4dp"
+                        android:background="@drawable/bg_input_field"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp" />
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -189,12 +207,12 @@
                             app:backgroundTint="@color/accent_red" />
 
                         <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnSimulateSos"
+                            android:id="@+id/btnDispatchSelectedSecurity"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_marginStart="6dp"
-                            android:text="Trigger Test SOS"
+                            android:text="Dispatch Officer"
                             app:backgroundTint="@color/brand_blue" />
                     </LinearLayout>
                 </LinearLayout>
@@ -337,7 +355,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="16dp"
+                    android:paddingBottom="20dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"

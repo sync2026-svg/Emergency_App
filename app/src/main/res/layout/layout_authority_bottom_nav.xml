@@ -100,6 +100,35 @@
             android:textSize="11sp" />
     </LinearLayout>
 
+    <!-- Security Tab -->
+    <LinearLayout
+        android:id="@+id/tabAuthSecurity"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless">
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:contentDescription="Security"
+            android:src="@drawable/ic_security"
+            app:tint="@color/nav_icon_inactive" />
+
+        <TextView
+            android:id="@+id/labelAuthSecurity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Security"
+            android:textColor="@color/nav_text_inactive"
+            android:textSize="11sp" />
+    </LinearLayout>
+
     <!-- Alerts Tab -->
     <LinearLayout
         android:id="@+id/tabAuthAlerts"

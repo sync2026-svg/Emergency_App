@@ -27,7 +27,7 @@
 
         <!-- Main Launcher & Authentication -->
         <activity
-            android:name=".MainActivity"
+            android:name=".AuthorityDashboardActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -95,7 +95,7 @@
 
         <!-- Campus Safety Authority Control Portal Activities -->
         <activity
-            android:name=".AuthorityDashboardActivity"
+            android:name=".MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
 
@@ -111,6 +111,11 @@
 
         <activity
             android:name=".AuthorityAlertsActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
+
+        <activity
+            android:name=".AuthoritySecurityActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
 

@@ -14,18 +14,20 @@ import androidx.core.content.ContextCompat;
 
 public class AuthorityNavHelper {
 
-    public enum Tab { DASHBOARD, HISTORY, USERS, ALERTS, LOGOUT }
+    public enum Tab { DASHBOARD, HISTORY, USERS, SECURITY, ALERTS, LOGOUT }
 
     public static void setup(Activity activity, Tab activeTab) {
         View tabDashboard = activity.findViewById(R.id.tabAuthDashboard);
         View tabHistory = activity.findViewById(R.id.tabAuthHistory);
         View tabUsers = activity.findViewById(R.id.tabAuthUsers);
+        View tabSecurity = activity.findViewById(R.id.tabAuthSecurity);
         View tabAlerts = activity.findViewById(R.id.tabAuthAlerts);
         View tabLogout = activity.findViewById(R.id.tabAuthLogout);
 
         updateTabStyle(activity, tabDashboard, R.id.labelAuthDashboard, activeTab == Tab.DASHBOARD);
         updateTabStyle(activity, tabHistory, R.id.labelAuthHistory, activeTab == Tab.HISTORY);
         updateTabStyle(activity, tabUsers, R.id.labelAuthUsers, activeTab == Tab.USERS);
+        updateTabStyle(activity, tabSecurity, R.id.labelAuthSecurity, activeTab == Tab.SECURITY);
         updateTabStyle(activity, tabAlerts, R.id.labelAuthAlerts, activeTab == Tab.ALERTS);
         updateTabStyle(activity, tabLogout, R.id.labelAuthLogout, activeTab == Tab.LOGOUT);
 
@@ -37,6 +39,9 @@ public class AuthorityNavHelper {
         }
         if (tabUsers != null) {
             tabUsers.setOnClickListener(v -> go(activity, AuthorityUsersActivity.class, activeTab, Tab.USERS));
+        }
+        if (tabSecurity != null) {
+            tabSecurity.setOnClickListener(v -> go(activity, AuthoritySecurityActivity.class, activeTab, Tab.SECURITY));
         }
         if (tabAlerts != null) {
             tabAlerts.setOnClickListener(v -> go(activity, AuthorityAlertsActivity.class, activeTab, Tab.ALERTS));

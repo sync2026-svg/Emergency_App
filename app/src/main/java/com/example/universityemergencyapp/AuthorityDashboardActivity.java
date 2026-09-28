@@ -10,7 +10,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,9 @@ public class AuthorityDashboardActivity extends AppCompatActivity implements Sos
     private TextView tvSosLocation;
     private TextView tvSosTime;
 
+    private Spinner spinnerSelectSecurity;
+    private MaterialButton btnDispatchSelectedSecurity;
+
     private EditText etAlertTitle;
     private EditText etAlertLocation;
     private EditText etAlertDesc;
@@ -46,14 +51,14 @@ public class AuthorityDashboardActivity extends AppCompatActivity implements Sos
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authority_dashboard);
 
-
-
         tvSosUser = findViewById(R.id.tvSosUser);
         tvSosLocation = findViewById(R.id.tvSosLocation);
         tvSosTime = findViewById(R.id.tvSosTime);
 
+        spinnerSelectSecurity = findViewById(R.id.spinnerSelectSecurity);
+        btnDispatchSelectedSecurity = findViewById(R.id.btnDispatchSelectedSecurity);
+
         MaterialButton btnViewSosPopUp = findViewById(R.id.btnViewSosPopUp);
-        MaterialButton btnSimulateSos = findViewById(R.id.btnSimulateSos);
 
         etAlertTitle = findViewById(R.id.etAlertTitle);
         etAlertLocation = findViewById(R.id.etAlertLocation);
@@ -65,6 +70,8 @@ public class AuthorityDashboardActivity extends AppCompatActivity implements Sos
 
         SosRepository.getInstance().addListener(this);
 
+        setupSecuritySpinner();
+
         btnViewSosPopUp.setOnClickListener(v -> {
             if (latestSosEvent != null) {
                 showSosPopUpWindow(latestSosEvent);
@@ -73,10 +80,7 @@ public class AuthorityDashboardActivity extends AppCompatActivity implements Sos
             }
         });
 
-        btnSimulateSos.setOnClickListener(v -> {
-            SosEvent event = SosRepository.getInstance().triggerSosFromUser(this);
-            Toast.makeText(this, "Test SOS Triggered from " + event.getUserName(), Toast.LENGTH_SHORT).show();
-        });
+        btnDispatchSelectedSecurity.setOnClickListener(v -> dispatchSelectedOfficer());
 
         btnPublishAlert.setOnClickListener(v -> publishCampusAlert());
 
@@ -106,7 +110,30 @@ public class AuthorityDashboardActivity extends AppCompatActivity implements Sos
         });
     }
 
+    private void setupSecuritySpinner() {
+        if (spinnerSelectSecurity == null) return;
+        List<String> guardList = SecurityRepository.getInstance(this).getSecurityNamesList();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, guardList);
+        spinnerSelectSecurity.setAdapter(adapter);
+    }
+
+    private void dispatchSelectedOfficer() {
+        String officer = "Officer Vikram Singh (CP-104)";
+        if (spinnerSelectSecurity != null && spinnerSelectSecurity.getSelectedItem() != null) {
+            officer = spinnerSelectSecurity.getSelectedItem().toString();
+        }
+
+        if (latestSosEvent != null) {
+            latestSosEvent.setStatus("DISPATCHED");
+            Toast.makeText(this, "🚨 Dispatched " + officer + " to " + latestSosEvent.getUserName() + "'s location!", Toast.LENGTH_LONG).show();
+            refreshData();
+        } else {
+            Toast.makeText(this, "🚨 Dispatched " + officer + " to active incident location!", Toast.LENGTH_LONG).show();
+        }
+    }
+
     private void refreshData() {
+        setupSecuritySpinner();
         List<SosEvent> activeList = SosRepository.getInstance().getActiveSosList();
         if (!activeList.isEmpty()) {
             latestSosEvent = activeList.get(0);
