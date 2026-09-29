@@ -1,5 +1,6 @@
 package com.example.universityemergencyapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -8,6 +9,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.chip.ChipGroup;
@@ -15,6 +18,26 @@ import com.google.android.material.chip.ChipGroup;
 public class ReportIncidentActivity extends AppCompatActivity {
 
     private String selectedLocation = null;
+
+    private final ActivityResultLauncher<Intent> mapPickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    String title = result.getData().getStringExtra(CampusMapActivity.EXTRA_SELECTED_TITLE);
+                    double lat = result.getData().getDoubleExtra(CampusMapActivity.EXTRA_SELECTED_LAT, 23.8315);
+                    double lng = result.getData().getDoubleExtra(CampusMapActivity.EXTRA_SELECTED_LNG, 78.7810);
+                    if (title != null) {
+                        selectedLocation = title + " (" + String.format("%.4f", lat) + ", " + String.format("%.4f", lng) + ")";
+                    } else {
+                        selectedLocation = String.format("Lat %.4f, Lng %.4f", lat, lng);
+                    }
+                    TextView tvSelectedLocation = findViewById(R.id.tvSelectedLocation);
+                    tvSelectedLocation.setText(selectedLocation);
+                    tvSelectedLocation.setTextColor(getResources().getColor(R.color.text_primary));
+                    Toast.makeText(this, "Location pinned on Campus Map", Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +57,9 @@ public class ReportIncidentActivity extends AppCompatActivity {
 
         // Tapping the location field opens the campus map to pick a spot.
         layoutLocation.setOnClickListener(v -> {
-            selectedLocation = "Pinned near current location";
-            tvSelectedLocation.setText(selectedLocation);
-            tvSelectedLocation.setTextColor(getResources().getColor(R.color.text_primary));
-            Toast.makeText(this, "Location pinned", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, CampusMapActivity.class);
+            intent.putExtra(CampusMapActivity.EXTRA_IS_PICKER, true);
+            mapPickerLauncher.launch(intent);
         });
 
         btnAddPhoto.setOnClickListener(v ->

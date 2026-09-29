@@ -18,20 +18,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Original Interactive Map of Dr. Harisingh Gour Vishwavidyalaya Campus (Google Maps) -->
+        <!-- Google Maps View of Dr. Harisingh Gour Vishwavidyalaya Campus -->
         <com.google.android.gms.maps.MapView
             android:id="@+id/campusMapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="Interactive map of Dr. Harisingh Gour Vishwavidyalaya campus"
-            app:cameraTargetLat="23.8315"
-            app:cameraTargetLng="78.7810"
-            app:cameraZoom="16.5"
-            app:cameraTilt="0"
-            app:cameraBearing="0"
-            app:mapType="normal"
-            app:uiZoomControls="false"
-            app:uiCompass="true" />
+            android:contentDescription="Interactive Google Map of Dr. Harisingh Gour Vishwavidyalaya campus"
+            app:mapType="normal" />
+
+        <!-- OpenStreetMap / CARTO Copyright Attribution -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
+            android:background="#CCFFFFFF"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:text="© OpenStreetMap contributors, © CARTO"
+            android:textColor="#333333"
+            android:textSize="10sp"
+            android:clickable="false" />
+
         <!-- Overlay for emergency point markers, positioned dynamically -->
         <FrameLayout
             android:id="@+id/markerOverlay"
@@ -128,19 +138,6 @@
     </com.google.android.material.chip.ChipGroup>
 
     <!-- Emergency SOS Floating Action Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/sosFab"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="16dp"
-        android:src="@android:drawable/ic_dialog_alert"
-        app:backgroundTint="@color/accent_red"
-        app:tint="@color/white"
-        app:elevation="8dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomInfoSheet"
-        app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="Emergency SOS button" />
 
     <!-- Zoom controls floating buttons -->
     <LinearLayout
