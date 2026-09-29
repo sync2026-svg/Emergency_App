@@ -83,9 +83,15 @@ public class SosActiveActivity extends AppCompatActivity implements OnMapReadyCa
 
             double progress = Math.min(1.0, (double) elapsedSeconds / TOTAL_APPROACH_SECONDS);
 
-            // Interpolate position along actual map layout towards user's exact live location
-            double currLat = SECURITY_START_LAT + (userLat - SECURITY_START_LAT) * progress;
-            double currLng = SECURITY_START_LNG + (userLng - SECURITY_START_LNG) * progress;
+            double currLat;
+            double currLng;
+            if (progress >= 1.0 || elapsedSeconds >= TOTAL_APPROACH_SECONDS) {
+                currLat = userLat;
+                currLng = userLng;
+            } else {
+                currLat = SECURITY_START_LAT + (userLat - SECURITY_START_LAT) * progress;
+                currLng = SECURITY_START_LNG + (userLng - SECURITY_START_LNG) * progress;
+            }
             LatLng currentSecurityPos = new LatLng(currLat, currLng);
 
             float[] results = new float[1];
@@ -122,15 +128,6 @@ public class SosActiveActivity extends AppCompatActivity implements OnMapReadyCa
 
             if (googleMap != null && securityMarker != null) {
                 securityMarker.setPosition(currentSecurityPos);
-                try {
-                    LatLngBounds bounds = new LatLngBounds.Builder()
-                            .include(new LatLng(userLat, userLng))
-                            .include(currentSecurityPos)
-                            .build();
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
-                } catch (Exception e) {
-                    // Fallback if bounds include error
-                }
             }
 
             handler.postDelayed(this, 2000); // Update every 2 seconds
