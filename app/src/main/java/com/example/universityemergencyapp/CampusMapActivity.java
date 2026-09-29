@@ -104,7 +104,7 @@ public class CampusMapActivity extends AppCompatActivity implements OnMapReadyCa
         });
 
         if (isPicker) {
-            directionsButton.setText("Confirm Location");
+            directionsButton.setText(R.string.confirm_location);
             directionsButton.setOnClickListener(v -> {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra(EXTRA_SELECTED_TITLE, currentSelectedTitle);
@@ -146,7 +146,7 @@ public class CampusMapActivity extends AppCompatActivity implements OnMapReadyCa
 
             if (nearestPointName != null) nearestPointName.setText(title);
             if (nearestPointDistance != null) {
-                nearestPointDistance.setText(String.format("Exact Coordinates: Lat %.5f°, Lng %.5f°", targetLat, targetLng));
+                nearestPointDistance.setText(String.format(getString(R.string.exact_coordinates_lat_5f_lng_5f), targetLat, targetLng));
             }
         }
 
@@ -167,7 +167,7 @@ public class CampusMapActivity extends AppCompatActivity implements OnMapReadyCa
             currentSelectedLng = marker.getPosition().longitude;
             if (nearestPointName != null) nearestPointName.setText(marker.getTitle());
             if (nearestPointDistance != null) {
-                nearestPointDistance.setText("Dr. Harisingh Gour Vishwavidyalaya, Sagar (M.P.)");
+                nearestPointDistance.setText(R.string.dr_harisingh_gour_vishwavidyalaya_sagar_m_p);
             }
             marker.showInfoWindow();
             return false;
@@ -186,7 +186,7 @@ public class CampusMapActivity extends AppCompatActivity implements OnMapReadyCa
             currentSelectedLat = campusCenter.latitude;
             currentSelectedLng = campusCenter.longitude;
             if (nearestPointName != null) nearestPointName.setText(currentSelectedTitle);
-            if (nearestPointDistance != null) nearestPointDistance.setText("Sagar (M.P.)");
+            if (nearestPointDistance != null) nearestPointDistance.setText(R.string.sagar_m_p);
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(campusCenter, 16.5f));
         }
     }

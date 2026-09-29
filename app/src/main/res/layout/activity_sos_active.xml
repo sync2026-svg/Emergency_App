@@ -68,7 +68,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardMapContainer"
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="320dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="3dp">
 
@@ -81,11 +81,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:contentDescription="Live tracking map of approaching campus security patrol"
-                        app:cameraTargetLat="23.8315"
-                        app:cameraTargetLng="78.7810"
-                        app:cameraZoom="16.5"
                         app:mapType="normal"
-                        app:uiZoomControls="false" />
+                        app:uiZoomControls="true" />
 
                     <!-- Live Distance Badge Overlay -->
                     <LinearLayout
@@ -113,7 +110,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
-                            android:text="📍 Patrol 0.8 km away · Approaching"
+                            android:text="📍 Patrol En Route"
                             android:textColor="@color/white"
                             android:textSize="11sp"
                             android:textStyle="bold" />

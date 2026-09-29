@@ -1,10 +1,14 @@
 package com.example.universityemergencyapp;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,18 +43,20 @@ import java.util.Locale;
 
 public class SosActiveActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private static final double USER_LAT = 23.8315;
-    private static final double USER_LNG = 78.7810;
-    private static final double SECURITY_START_LAT = 23.8385;
-    private static final double SECURITY_START_LNG = 78.7875;
-    private static final int INITIAL_DISTANCE_METERS = 800;
+    private static final double SECURITY_START_LAT = 23.826380065526923;
+    private static final double SECURITY_START_LNG = 78.77118961928987;
     private static final int TOTAL_APPROACH_SECONDS = 60;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 2001;
+
+    private double userLat = 23.8315;
+    private double userLng = 78.7810;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
 
     private MapView sosMapView;
     private GoogleMap googleMap;
     private Marker securityMarker;
+    private Marker userMarker;
     private Polyline routePolyline;
 
     private TextView tvElapsedTime;
@@ -60,58 +67,73 @@ public class SosActiveActivity extends AppCompatActivity implements OnMapReadyCa
     private TextView tvTimelineStatus;
 
     private int elapsedSeconds = 0;
-    private boolean running = true;
+    private boolean running = false;
+    private int initialDistanceMeters = 1500;
 
     private final Runnable ticker = new Runnable() {
         @Override
         public void run() {
             if (!running) return;
 
-            elapsedSeconds++;
+            elapsedSeconds += 2; // Update every 2 seconds
 
-            // Format timer 00:00
             int minutes = elapsedSeconds / 60;
             int seconds = elapsedSeconds % 60;
             tvElapsedTime.setText(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
 
-            // Rapido style distance approach calculation
             double progress = Math.min(1.0, (double) elapsedSeconds / TOTAL_APPROACH_SECONDS);
-            int currentDistanceMeters = (int) (INITIAL_DISTANCE_METERS * (1.0 - progress));
-            int etaMins = Math.max(1, (int) Math.ceil(currentDistanceMeters / 250.0));
 
-            if (currentDistanceMeters > 0) {
-                tvEtaDisplay.setText(etaMins + " MINS");
+            // Interpolate position along actual map layout towards user's exact live location
+            double currLat = SECURITY_START_LAT + (userLat - SECURITY_START_LAT) * progress;
+            double currLng = SECURITY_START_LNG + (userLng - SECURITY_START_LNG) * progress;
+            LatLng currentSecurityPos = new LatLng(currLat, currLng);
+
+            float[] results = new float[1];
+            Location.distanceBetween(
+                    currentSecurityPos.latitude, currentSecurityPos.longitude,
+                    userLat, userLng,
+                    results
+            );
+            int currentDistanceMeters = (int) results[0];
+
+            int etaSeconds = Math.max(1, (int) (currentDistanceMeters / 7.0));
+            int etaMins = etaSeconds / 60;
+            int etaSecsRem = etaSeconds % 60;
+
+            if (currentDistanceMeters > 20) {
+                String etaStr = etaMins > 0 ? etaMins + "m " + etaSecsRem + "s" : etaSecsRem + "s";
+                tvEtaDisplay.setText(etaStr.toUpperCase());
                 tvDistanceDetail.setText("Distance: " + currentDistanceMeters + " meters away");
-                tvLiveDistancePill.setText(String.format(Locale.US, "📍 Patrol %.2f km away · Approaching", currentDistanceMeters / 1000.0));
-                tvTimelineStatus.setText("Patrol Bike #CP-104 is " + currentDistanceMeters + "m away");
+                tvLiveDistancePill.setText(String.format(Locale.US, "📍 Patrol %.2f km away · En Route", currentDistanceMeters / 1000.0));
+                tvTimelineStatus.setText("Patrol Bike #CP-104 is " + currentDistanceMeters + "m away on road");
             } else {
                 tvEtaDisplay.setText("ARRIVED");
                 tvDistanceDetail.setText("Security Patrol Arrived at your location!");
                 tvLiveDistancePill.setText("🚨 Security Patrol Arrived!");
                 tvTimelineStatus.setText("Patrol Officer Vikram Singh arrived at your location");
+                currentDistanceMeters = 0;
             }
 
-            pbDistanceProgress.setProgress(INITIAL_DISTANCE_METERS - currentDistanceMeters);
+            if (initialDistanceMeters == 1500 && currentDistanceMeters > 0) {
+                initialDistanceMeters = currentDistanceMeters;
+                pbDistanceProgress.setMax(initialDistanceMeters);
+            }
+            pbDistanceProgress.setProgress(Math.max(0, initialDistanceMeters - currentDistanceMeters));
 
-            // Update Map Marker position & Route line
-            if (googleMap != null) {
-                double currLat = SECURITY_START_LAT + (USER_LAT - SECURITY_START_LAT) * progress;
-                double currLng = SECURITY_START_LNG + (USER_LNG - SECURITY_START_LNG) * progress;
-                LatLng newSecurityPos = new LatLng(currLat, currLng);
-
-                if (securityMarker != null) {
-                    securityMarker.setPosition(newSecurityPos);
-                }
-
-                if (routePolyline != null) {
-                    List<LatLng> points = new ArrayList<>();
-                    points.add(newSecurityPos);
-                    points.add(new LatLng(USER_LAT, USER_LNG));
-                    routePolyline.setPoints(points);
+            if (googleMap != null && securityMarker != null) {
+                securityMarker.setPosition(currentSecurityPos);
+                try {
+                    LatLngBounds bounds = new LatLngBounds.Builder()
+                            .include(new LatLng(userLat, userLng))
+                            .include(currentSecurityPos)
+                            .build();
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+                } catch (Exception e) {
+                    // Fallback if bounds include error
                 }
             }
 
-            handler.postDelayed(this, 1000);
+            handler.postDelayed(this, 2000); // Update every 2 seconds
         }
     };
 
@@ -155,20 +177,77 @@ public class SosActiveActivity extends AppCompatActivity implements OnMapReadyCa
             }
         });
 
-        handler.postDelayed(ticker, 1000);
+        checkLocationPermission();
+    }
+
+    private void checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            fetchUserLocationAndStart();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED || (grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED))) {
+                fetchUserLocationAndStart();
+            } else {
+                Toast.makeText(this, "Location permission denied. Using SOS event location.", Toast.LENGTH_SHORT).show();
+                fetchUserLocationAndStart();
+            }
+        }
+    }
+
+    private void fetchUserLocationAndStart() {
+        try {
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            if (locationManager != null && (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (location == null) {
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                }
+                if (location != null) {
+                    userLat = location.getLatitude();
+                    userLng = location.getLongitude();
+                }
+            }
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+
+        List<SosEvent> activeSos = SosRepository.getInstance().getActiveSosList();
+        if (!activeSos.isEmpty() && userLat == 23.8315 && userLng == 78.7810) {
+            SosEvent latestSos = activeSos.get(0);
+            userLat = latestSos.getLatitude();
+            userLng = latestSos.getLongitude();
+        }
+
+        setupMapIfReady();
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap map) {
         googleMap = map;
+        setupMapIfReady();
+    }
 
-        LatLng userPos = new LatLng(USER_LAT, USER_LNG);
+    private void setupMapIfReady() {
+        if (googleMap == null || running) return;
+
+        LatLng userPos = new LatLng(userLat, userLng);
         LatLng securityPos = new LatLng(SECURITY_START_LAT, SECURITY_START_LNG);
 
         // Add User SOS Location Marker
-        googleMap.addMarker(new MarkerOptions()
+        userMarker = googleMap.addMarker(new MarkerOptions()
                 .position(userPos)
-                .title("You (SOS Location)"));
+                .title("You (Exact SOS Location)"));
 
         // Add Security Patrol Officer Marker with Patrol Bike Icon
         BitmapDescriptor bikeIcon = getBitmapDescriptorFromVector(R.drawable.ic_patrol_bike);
@@ -183,11 +262,29 @@ public class SosActiveActivity extends AppCompatActivity implements OnMapReadyCa
             securityMarker.showInfoWindow();
         }
 
-        // Connect both with a Rapido-style route polyline
+        // Draw direction view road polyline connecting security to user location
+        List<LatLng> roadPoints = new ArrayList<>();
+        roadPoints.add(securityPos);
+        roadPoints.add(new LatLng((securityPos.latitude + userPos.latitude) / 2.0 + 0.001, (securityPos.longitude + userPos.longitude) / 2.0));
+        roadPoints.add(userPos);
+
         routePolyline = googleMap.addPolyline(new PolylineOptions()
-                .add(securityPos, userPos)
-                .width(8f)
-                .color(Color.parseColor("#D32F2F")));
+                .addAll(roadPoints)
+                .width(10f)
+                .color(Color.parseColor("#1976D2")));
+
+        // Enable Google Maps features to show exact present roads, buildings, and traffic naturally
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        googleMap.setTrafficEnabled(true);
+        googleMap.setBuildingsEnabled(true);
+        googleMap.setIndoorEnabled(true);
+
+        // Enable smooth pinch-to-zoom and touch gestures without zoom buttons
+        googleMap.getUiSettings().setZoomControlsEnabled(false);
+        googleMap.getUiSettings().setZoomGesturesEnabled(true);
+        googleMap.getUiSettings().setScrollGesturesEnabled(true);
+        googleMap.getUiSettings().setRotateGesturesEnabled(true);
+        googleMap.getUiSettings().setTiltGesturesEnabled(true);
 
         // Adjust camera to fit both markers with padding
         try {
@@ -199,6 +296,9 @@ public class SosActiveActivity extends AppCompatActivity implements OnMapReadyCa
         } catch (Exception e) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userPos, 15f));
         }
+
+        running = true;
+        handler.postDelayed(ticker, 2000); // Update every 2 seconds
     }
 
     private BitmapDescriptor getBitmapDescriptorFromVector(int vectorResId) {

@@ -28,4 +28,9 @@
     <string name="emergency_medications_required">Emergency Medications Required</string>
     <string name="campus_first_responders_amp_health_center_can_access_these_details_in_an_emergency"><![CDATA[Campus first responders & health center can access these details in an emergency.]]></string>
     <string name="medical_information">Medical Information</string>
+    <string name="dr_harisingh_gour_vishwavidyalaya_sagar_m_p">Dr. Harisingh Gour Vishwavidyalaya, Sagar (M.P.)</string>
+    <string name="exact_coordinates_lat_5f_lng_5f">Exact Coordinates: Lat %.5f°, Lng %.5f°</string>
+    <string name="confirm_location">Confirm Location</string>
+    <string name="live_tracking_map_of_approaching_campus_security_patrol">Live tracking map of approaching campus security patrol</string>
+    <string name="sagar_m_p">Sagar (M.P.)</string>
 </resources>
