@@ -1,23 +1,21 @@
 package com.example.universityemergencyapp.push;
 
 public class User {
-    private String name;
-    private String id;
-    private String email;
-    private String phone;
-    private String gender;
+    private String name, id, email, phone,gender, department, hostel;
 
     // 1. Empty constructor (REQUIRED by Firebase)
     public User() {
     }
 
     // 2. Constructor with parameters
-    public User(String name, String id, String email, String phone, String gender) {
+    public User(String name, String id, String email, String phone, String gender, String department, String hostel) {
         this.name = name;
         this.id = id;
         this.email = email;
         this.phone = phone;
         this.gender = gender;
+        this.department = department ;
+        this.hostel = hostel ;
     }
 
     // 3. Getters
@@ -41,6 +39,12 @@ public class User {
         return gender;
     }
 
+    public String getDepartment(){return department ;}
+
+    public String getHostel() {
+        return hostel;
+    }
+
     // 4. Setters (recommended)
     public void setName(String name) {
         this.name = name;
@@ -61,4 +65,13 @@ public class User {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+    public void setDepartment(String department) {
+        this.department = department ;
+    }
+
+    public void setHostel() {this.hostel = hostel; }
+
+
+
 }

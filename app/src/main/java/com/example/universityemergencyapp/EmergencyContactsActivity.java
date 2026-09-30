@@ -10,8 +10,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
+import com.example.universityemergencyapp.push.Econtact;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EmergencyContactsActivity extends AppCompatActivity {
 
@@ -38,16 +50,16 @@ public class EmergencyContactsActivity extends AppCompatActivity {
     public static final String KEY_C5_RELATION = "c5_contact_relation";
     public static final String KEY_C5_PHONE = "c5_contact_phone";
 
-    private EditText etPrimaryName, etPrimaryRelation, etPrimaryPhone;
-    private EditText etSecondaryName, etSecondaryRelation, etSecondaryPhone;
-
+    private EditText etPrimaryName, etPrimaryRelation, etPrimaryPhone,etSecondaryName, etSecondaryRelation, etSecondaryPhone, etContact3Name, etContact3Relation, etContact3Phone ;
     private CardView cardContact3, cardContact4, cardContact5;
-    private EditText etContact3Name, etContact3Relation, etContact3Phone;
     private EditText etContact4Name, etContact4Relation, etContact4Phone;
     private EditText etContact5Name, etContact5Relation, etContact5Phone;
 
     private TextView btnAddMoreContact;
     private int visibleCount = 2;
+    private FirebaseAuth auth ;
+    private FirebaseDatabase database ;
+    private FirebaseUser currentuser ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +68,9 @@ public class EmergencyContactsActivity extends AppCompatActivity {
 
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
+        auth = FirebaseAuth.getInstance() ;
+        database = FirebaseDatabase.getInstance() ;
+        currentuser = FirebaseAuth.getInstance().getCurrentUser() ;
 
         etPrimaryName = findViewById(R.id.etPrimaryName);
         etPrimaryRelation = findViewById(R.id.etPrimaryRelation);
@@ -90,6 +105,31 @@ public class EmergencyContactsActivity extends AppCompatActivity {
 
         loadContactsData();
 
+        if(currentuser != null) {
+
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Students")
+                    .child(currentuser.getUid())
+                    .child("Emergency_contact");
+
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()) {
+                        Econtact econtactq = snapshot.getValue(Econtact.class) ;
+                        etPrimaryName.setText(econtactq.getName());
+                        etPrimaryRelation.setText(econtactq.getRelation()) ;
+                        etPrimaryPhone.setText(econtactq.getPhone()) ;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        }
+
         btnCallPrimary.setOnClickListener(v -> dial(etPrimaryPhone.getText().toString().trim()));
         btnCallSecondary.setOnClickListener(v -> dial(etSecondaryPhone.getText().toString().trim()));
 
@@ -99,7 +139,34 @@ public class EmergencyContactsActivity extends AppCompatActivity {
         btnRemoveContact4.setOnClickListener(v -> removeContact(4));
         btnRemoveContact5.setOnClickListener(v -> removeContact(5));
 
-        btnSaveContacts.setOnClickListener(v -> saveContactsData());
+        btnSaveContacts.setOnClickListener(v -> {
+
+            Toast.makeText(EmergencyContactsActivity.this, "Lungi madhrchod", Toast.LENGTH_SHORT).show();
+            //Saving data
+
+            if(currentuser != null) {
+                String name , relation , phone ;
+                name = etPrimaryName.getText().toString().trim() ;
+                relation = etPrimaryRelation.getText().toString().trim() ;
+                phone = etPrimaryPhone.getText().toString().trim() ;
+                Econtact emc = new Econtact(name, relation,phone) ;
+
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Students")
+                        .child(currentuser.getUid())
+                        .child("Emergency_contact");
+                myRef.setValue(emc).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(EmergencyContactsActivity.this, "Data saved", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(EmergencyContactsActivity.this, "Try again", Toast.LENGTH_SHORT).show() ;
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void addNextContact() {

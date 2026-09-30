@@ -1,5 +1,6 @@
 package com.example.universityemergencyapp;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -7,7 +8,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.universityemergencyapp.push.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -26,10 +39,16 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText etDepartment;
     private EditText etHostel;
 
+    String name, id, email, phone, dept, hostel, gender ;
+    FirebaseUser currentUser ;
+    DatabaseReference myref ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
@@ -40,12 +59,80 @@ public class EditProfileActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhone);
         etDepartment = findViewById(R.id.etDepartment);
         etHostel = findViewById(R.id.etHostel);
+
         TextView btnSaveProfile = findViewById(R.id.btnSaveProfile);
 
         loadProfileData();
+        if(currentUser != null) {
+            myref = FirebaseDatabase.getInstance()
+                    .getReference("Students")
+                    .child(currentUser.getUid())
+                    .child("Profile");
 
-        btnSaveProfile.setOnClickListener(v -> saveProfileData());
+            //get data for database
+            myref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()) {
+                        User student = snapshot.getValue(User.class);
+
+                        etFullName.setText(student.getName());
+                        etStudentId.setText(student.getId());
+                        etEmail.setText(student.getEmail());
+                        etPhone.setText(student.getPhone());
+                        etDepartment.setText(student.getDepartment());
+                        etHostel.setText(student.getHostel());
+                        gender = student.getGender() ;
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+
+
+
+
+
+        }
+
+        btnSaveProfile.setOnClickListener(v -> {
+
+            if(currentUser != null) {
+                name = etFullName.getText().toString().trim();
+                id = etStudentId.getText().toString().trim();
+                email = etEmail.getText().toString().trim();
+                phone = etPhone.getText().toString().trim();
+                dept = etDepartment.getText().toString().trim();
+                hostel = etHostel.getText().toString().trim();
+                User newStudent = new User(name, id, email, phone, gender,dept,  hostel);
+                myref = FirebaseDatabase.getInstance()
+                        .getReference("Students")
+                        .child(currentUser.getUid())
+                        .child("Profile");
+                myref.setValue(newStudent).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(EditProfileActivity.this, "Profile updated", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(EditProfileActivity.this, ProfileActivity.class));
+                        }
+                    }
+                });
+            }
+
+        });
+//edit data in database
+
+
     }
+
+
 
     private void loadProfileData() {
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -59,32 +146,5 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
-    private void saveProfileData() {
-        String name = etFullName.getText().toString().trim();
-        String id = etStudentId.getText().toString().trim();
-        String email = etEmail.getText().toString().trim();
-        String phone = etPhone.getText().toString().trim();
-        String dept = etDepartment.getText().toString().trim();
-        String hostel = etHostel.getText().toString().trim();
 
-
-
-        if (name.isEmpty()) {
-            etFullName.setError("Name cannot be empty");
-            return;
-        }
-
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        prefs.edit()
-                .putString(KEY_USER_NAME, name)
-                .putString(KEY_USER_ID, id)
-                .putString(KEY_USER_EMAIL, email)
-                .putString(KEY_USER_PHONE, phone)
-                .putString(KEY_USER_DEPARTMENT, dept)
-                .putString(KEY_USER_HOSTEL, hostel)
-                .apply();
-
-        Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-        finish();
-    }
 }

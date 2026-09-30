@@ -141,11 +141,12 @@ public class Register extends AppCompatActivity {
                                 if (firebaseUser != null) {
                                     String UID = firebaseUser.getUid();   // ← Correct UID
 
-                                    User newStudent = new User(name, id, email, phone, "Male");
+                                    User newStudent = new User(name, id, email, phone, "Male", "NULL", "NULL");
 
-                                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Students");
+                                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Students").child(UID)
+                                            .child("Profile");
 
-                                    myRef.child(UID).setValue(newStudent)
+                                    myRef.setValue(newStudent)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {

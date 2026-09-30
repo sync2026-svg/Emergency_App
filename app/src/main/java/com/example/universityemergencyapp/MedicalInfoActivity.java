@@ -9,7 +9,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.universityemergencyapp.push.Medical;
+import com.example.universityemergencyapp.push.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MedicalInfoActivity extends AppCompatActivity {
 
@@ -28,6 +42,9 @@ public class MedicalInfoActivity extends AppCompatActivity {
     private EditText etMedications;
     private EditText etInsurance;
 
+    FirebaseUser currentUser ;
+    DatabaseReference myref ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +61,8 @@ public class MedicalInfoActivity extends AppCompatActivity {
         etInsurance = findViewById(R.id.etInsurance);
         TextView btnSaveMedical = findViewById(R.id.btnSaveMedical);
 
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_item,
@@ -52,9 +71,66 @@ public class MedicalInfoActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBloodGroup.setAdapter(adapter);
 
-        loadMedicalData();
+        if(currentUser != null) {
+            myref = FirebaseDatabase.getInstance()
+                    .getReference("Students")
+                    .child(currentUser.getUid())
+                    .child("Medical_info");
 
-        btnSaveMedical.setOnClickListener(v -> saveMedicalData());
+            //get data for database
+            myref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()) {
+                        Medical student = snapshot.getValue(Medical.class);
+
+                        //Blood Group
+                        etConditions.setText(student.getMedical_condition());
+                        etAllergies.setText(student.getAllergies());
+                        etMedications.setText(student.getMedications());
+                        etInsurance.setText(student.getHealth_card());
+
+
+                    }
+                    else {
+                        Toast.makeText(MedicalInfoActivity.this, "No data", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(MedicalInfoActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+
+                }
+            });
+        }
+
+
+
+
+        btnSaveMedical.setOnClickListener(v -> {
+
+            //Update data
+            if(currentUser !=  null){
+                myref  = FirebaseDatabase.getInstance()
+                        .getReference("Students")
+                        .child(currentUser.getUid())
+                        .child("Medical_info");
+                Medical medInfo = new Medical(spinnerBloodGroup.getSelectedItem().toString(), etConditions.getText().toString().trim(),
+                        etAllergies.getText().toString().trim(), etMedications.getText().toString().trim(),
+                        etInsurance.getText().toString().trim());
+
+                myref.setValue(medInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()) {
+                            Toast.makeText(MedicalInfoActivity.this, "Updated", Toast.LENGTH_SHORT).show() ;
+
+                        }
+                    }
+                }) ;
+            }
+                });
     }
 
     private void loadMedicalData() {
