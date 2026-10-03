@@ -108,7 +108,7 @@ public class Home extends AppCompatActivity {
 
 
 
-        DatabaseReference myref = FirebaseDatabase.getInstance().getReference("Students")
+        DatabaseReference myref = FirebaseDatabase.getInstance().getReference("Admin")
 
                   .child("SOS_Alert")
                   .child(currrentUser.getUid());
