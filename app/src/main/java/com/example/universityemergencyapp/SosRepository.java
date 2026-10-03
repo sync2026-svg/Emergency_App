@@ -20,7 +20,7 @@ public class SosRepository {
     private final List<OnSosListener> listeners = new ArrayList<>();
 
     private SosRepository() {
-        // Sample initial SOS event for testing Authority Dashboard
+        // Sample initial SOS event
         activeSosList.add(new SosEvent(
                 "SOS_1001",
                 "Aditi Sharma",

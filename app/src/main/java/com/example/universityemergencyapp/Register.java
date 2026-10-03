@@ -21,6 +21,7 @@ import com.example.universityemergencyapp.push.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -131,35 +132,48 @@ public class Register extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-
+                            FirebaseUser firebaseUser1 = task.getResult().getUser();
                             if (task.isSuccessful()) {
-                                Toast.makeText(Register.this, "User is created", Toast.LENGTH_SHORT).show();
 
-                                // Get the NEWLY created user
-                                FirebaseUser firebaseUser = task.getResult().getUser();
+                                if(firebaseUser1 != null) {
 
-                                if (firebaseUser != null) {
-                                    String UID = firebaseUser.getUid();   // ← Correct UID
+                                    firebaseUser1.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task1) {
 
-                                    User newStudent = new User(name, id, email, phone, "Male", "NULL", "NULL");
+                                            if (task1.isSuccessful()) {
+                                                Toast.makeText(Register.this, "verifycation link send to email", Toast.LENGTH_SHORT).show();
 
-                                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Students").child(UID)
-                                            .child("Profile");
+                                                FirebaseUser firebaseUser = task.getResult().getUser();
 
-                                    myRef.setValue(newStudent)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        Toast.makeText(Register.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
-                                                        startActivity(new Intent(Register.this, Home.class));
-                                                        finish();
-                                                    } else {
-                                                        Toast.makeText(Register.this, "Failed to save data", Toast.LENGTH_SHORT).show();
-                                                    }
+                                                if (firebaseUser != null) {
+                                                    String UID = firebaseUser.getUid();   // ← Correct UID
+
+                                                    User newStudent = new User(name, id, email, phone, "Male", "NULL", "NULL");
+
+                                                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Students").child(UID)
+                                                            .child("Profile");
+
+                                                    myRef.setValue(newStudent)
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<Void> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        Toast.makeText(Register.this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                                                                        startActivity(new Intent(Register.this, Home.class));
+                                                                        finish();
+                                                                    } else {
+                                                                        Toast.makeText(Register.this, "Failed to save data", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                }
+                                                            });
                                                 }
-                                            });
+
+                                            }
+                                        }
+                                    });
                                 }
+
 
                             } else {
                                 Toast.makeText(Register.this, "Registration failed", Toast.LENGTH_SHORT).show();

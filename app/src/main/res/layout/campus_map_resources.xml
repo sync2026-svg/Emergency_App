@@ -137,8 +137,6 @@
             android:text="Hostels" />
     </com.google.android.material.chip.ChipGroup>
 
-    <!-- Emergency SOS Floating Action Button -->
-
     <!-- Zoom controls floating buttons -->
     <LinearLayout
         android:layout_width="wrap_content"
@@ -171,7 +169,7 @@
             android:contentDescription="Zoom out" />
     </LinearLayout>
 
-    <!-- Bottom info card: Dr. Harisingh Gour Vishwavidyalaya Emergency Point details -->
+    <!-- Bottom info card -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/bottomInfoSheet"
         android:layout_width="0dp"
@@ -229,16 +227,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
-                    android:text="Center on Map"
+                    android:text="Show Route"
                     app:backgroundTint="@color/brand_blue" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/callSecurityButton"
+                    android:id="@+id/showLocationButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Call Security"
-                    app:backgroundTint="@color/accent_red" />
+                    android:text="My Location"
+                    app:backgroundTint="@color/brand_blue" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

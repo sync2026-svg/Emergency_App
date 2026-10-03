@@ -39,18 +39,10 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvElapsedTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00"
-            android:textColor="@color/white"
-            android:textSize="15sp"
-            android:textStyle="bold" />
     </LinearLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/btnCancelSos"
@@ -68,9 +60,9 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardMapContainer"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="3dp">
+                android:layout_height="450dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="6dp">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -82,7 +74,52 @@
                         android:layout_height="match_parent"
                         android:contentDescription="Live tracking map of approaching campus security patrol"
                         app:mapType="normal"
-                        app:uiZoomControls="true" />
+                        app:uiZoomControls="false"
+                        app:uiScrollGestures="true"
+                        app:uiZoomGestures="true"
+                        app:uiTiltGestures="true"
+                        app:uiRotateGestures="true" />
+
+                    <!-- Floating Action Buttons for Map Controls inside the card -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="12dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/btnZoomIn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:contentDescription="Zoom In"
+                            app:backgroundTint="@color/white"
+                            app:fabSize="mini"
+                            app:srcCompat="@android:drawable/ic_input_add"
+                            app:tint="@color/text_primary" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/btnZoomOut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:contentDescription="Zoom Out"
+                            app:backgroundTint="@color/white"
+                            app:fabSize="mini"
+                            app:srcCompat="@android:drawable/ic_media_previous"
+                            app:tint="@color/text_primary" />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/btnCenterMap"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="Center Map"
+                            app:backgroundTint="@color/white"
+                            app:fabSize="mini"
+                            app:srcCompat="@android:drawable/ic_menu_mylocation"
+                            app:tint="@color/brand_blue" />
+                    </LinearLayout>
 
                     <!-- Live Distance Badge Overlay -->
                     <LinearLayout

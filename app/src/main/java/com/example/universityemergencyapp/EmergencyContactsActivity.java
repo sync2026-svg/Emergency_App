@@ -49,9 +49,10 @@ public class EmergencyContactsActivity extends AppCompatActivity {
     public static final String KEY_C5_NAME = "c5_contact_name";
     public static final String KEY_C5_RELATION = "c5_contact_relation";
     public static final String KEY_C5_PHONE = "c5_contact_phone";
-
-    private EditText etPrimaryName, etPrimaryRelation, etPrimaryPhone,etSecondaryName, etSecondaryRelation, etSecondaryPhone, etContact3Name, etContact3Relation, etContact3Phone ;
+    private EditText etPrimaryName, etPrimaryRelation, etPrimaryPhone;
+    private EditText etSecondaryName, etSecondaryRelation, etSecondaryPhone;
     private CardView cardContact3, cardContact4, cardContact5;
+    private EditText etContact3Name, etContact3Relation, etContact3Phone;
     private EditText etContact4Name, etContact4Relation, etContact4Phone;
     private EditText etContact5Name, etContact5Relation, etContact5Phone;
 
@@ -60,7 +61,7 @@ public class EmergencyContactsActivity extends AppCompatActivity {
     private FirebaseAuth auth ;
     private FirebaseDatabase database ;
     private FirebaseUser currentuser ;
-
+    String name , relation , phone, secName, secrelation, secphone ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +75,7 @@ public class EmergencyContactsActivity extends AppCompatActivity {
 
         etPrimaryName = findViewById(R.id.etPrimaryName);
         etPrimaryRelation = findViewById(R.id.etPrimaryRelation);
+
         etPrimaryPhone = findViewById(R.id.etPrimaryPhone);
         ImageButton btnCallPrimary = findViewById(R.id.btnCallPrimary);
 
@@ -129,7 +131,6 @@ public class EmergencyContactsActivity extends AppCompatActivity {
             });
 
         }
-
         btnCallPrimary.setOnClickListener(v -> dial(etPrimaryPhone.getText().toString().trim()));
         btnCallSecondary.setOnClickListener(v -> dial(etSecondaryPhone.getText().toString().trim()));
 
@@ -138,18 +139,29 @@ public class EmergencyContactsActivity extends AppCompatActivity {
         btnRemoveContact3.setOnClickListener(v -> removeContact(3));
         btnRemoveContact4.setOnClickListener(v -> removeContact(4));
         btnRemoveContact5.setOnClickListener(v -> removeContact(5));
-
+        btnSaveContacts.setOnClickListener(v -> saveContactsData());
         btnSaveContacts.setOnClickListener(v -> {
 
             Toast.makeText(EmergencyContactsActivity.this, "Lungi madhrchod", Toast.LENGTH_SHORT).show();
             //Saving data
 
             if(currentuser != null) {
-                String name , relation , phone ;
+
                 name = etPrimaryName.getText().toString().trim() ;
                 relation = etPrimaryRelation.getText().toString().trim() ;
                 phone = etPrimaryPhone.getText().toString().trim() ;
-                Econtact emc = new Econtact(name, relation,phone) ;
+                secName = etSecondaryName.getText().toString().trim() ;
+                secrelation = etSecondaryRelation.getText().toString().trim() ;
+                secphone = etSecondaryPhone.getText().toString().trim() ;
+
+                if(secName.isEmpty()) {secName = "null"; }
+                if(secrelation.isEmpty()) {secrelation = "null"; }
+                if(secphone.isEmpty()){secphone = ""; }
+
+                Econtact emc = new Econtact() ;
+                emc.setName(name);
+                emc.setRelation(relation);
+                emc.setPhone(phone);
 
                 DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Students")
                         .child(currentuser.getUid())
@@ -158,7 +170,8 @@ public class EmergencyContactsActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(EmergencyContactsActivity.this, "Data saved", Toast.LENGTH_SHORT).show();
+
+
                         }
                         else {
                             Toast.makeText(EmergencyContactsActivity.this, "Try again", Toast.LENGTH_SHORT).show() ;
@@ -167,16 +180,18 @@ public class EmergencyContactsActivity extends AppCompatActivity {
                 });
             }
         });
+
     }
 
-    private void addNextContact() {
-        if (visibleCount < 5) {
-            visibleCount++;
-            updateCardVisibilities();
-        } else {
-            Toast.makeText(this, "Maximum 5 emergency contacts allowed", Toast.LENGTH_SHORT).show();
-        }
+private void addNextContact() {
+    if (visibleCount < 5) {
+        visibleCount++;
+        updateCardVisibilities();
+    } else {
+        Toast.makeText(this, "Maximum 5 emergency contacts allowed", Toast.LENGTH_SHORT).show();
     }
+}
+
 
     private void removeContact(int index) {
         if (index == 3) {

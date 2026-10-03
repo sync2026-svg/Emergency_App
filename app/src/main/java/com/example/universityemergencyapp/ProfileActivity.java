@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
 public class ProfileActivity extends AppCompatActivity {
 
     DatabaseReference myRef ;
@@ -51,9 +52,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (currentUser != null) {
             String uid = currentUser.getUid();
-            myRef = FirebaseDatabase.getInstance().getReference("Students");
+            myRef = FirebaseDatabase.getInstance().getReference("Students").child(currentUser.getUid()).child("Profile");
 
-            myRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
@@ -63,6 +64,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                             userName.setText(student.getName());
                             student_id.setText("Student · ID "+student.getId());
+                            String username = student.getName() ;
+                            new Intent(ProfileActivity.this, Home.class).putExtra("USER_NAME", username) ;
+
                         } else {
                             Toast.makeText(ProfileActivity.this, "Failed to load user data", Toast.LENGTH_SHORT).show();
                         }
@@ -82,10 +86,18 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show();
 
         rowEditProfile.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
+        });
+        rowEmergencyContacts.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, EmergencyContactsActivity.class));
+
+        });
+        rowMedicalInfo.setOnClickListener(v ->{
+            startActivity(new Intent(ProfileActivity.this, MedicalInfoActivity.class));
             startActivity(new Intent(this, Register.class));
         });
-        rowEmergencyContacts.setOnClickListener(comingSoon);
-        rowMedicalInfo.setOnClickListener(comingSoon);
+
+
         rowSafetyGuide.setOnClickListener(comingSoon);
         rowHelpCenter.setOnClickListener(comingSoon);
         rowMyReports.setOnClickListener(comingSoon);
@@ -101,11 +113,8 @@ public class ProfileActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show());
 
         btnLogout.setOnClickListener(v -> {
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(this, Login.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            Toast.makeText(this, "land boor is comming", Toast.LENGTH_SHORT).show();
+
         });
 
         BottomNavHelper.setup(this, BottomNavHelper.Tab.PROFILE);
